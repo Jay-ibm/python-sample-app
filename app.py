@@ -34,7 +34,8 @@ def fetch_orders():
     print(query)
     df = pd.read_sql_query(query, con=db2_connection)
     print(df)
-    return df
+    res = df.to_string(index=False)
+    return res
 
 
 if __name__ == "__main__":
