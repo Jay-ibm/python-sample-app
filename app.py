@@ -35,7 +35,8 @@ def fetch_orders():
     df = pd.read_sql_query(query, con=db2_connection)
     print(df)
     res = df.to_string(index=False)
-    return res
+    htmlCode = df.to_html()
+    return htmlCode
 
 
 if __name__ == "__main__":
