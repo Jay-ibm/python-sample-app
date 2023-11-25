@@ -39,6 +39,15 @@ def fetch_orders():
     return htmlCode
 
 
+@app.route("/health")
+def health():
+    data = {}
+    data["id"] = 1
+    data["health"] = "ok"
+    json_data = json.dumps(data)
+    return json_data
+
+
 if __name__ == "__main__":
     port = os.environ.get("FLASK_PORT") or 8080
     port = int(port)
