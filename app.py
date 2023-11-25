@@ -44,7 +44,7 @@ def fetch_orders():
 def health():
     data = {}
     data["id"] = 1
-    data["health"] = "ok"
+    data["value"] = "ok"
     json_data = json.dumps(data)
     # return json_data
     return Response(json_data, mimetype="application/json")
