@@ -34,8 +34,8 @@ def fetch_orders():
     query = "SELECT * FROM PROCUREMENT"
     print(query)
     df = pd.read_sql_query(query, con=db2_connection)
-    print(df)
-
+    #print(df)
+    ''' 
     df_data = df.to_string(index=False)
     data = {}
     data["id"] = 1
@@ -49,8 +49,25 @@ def fetch_orders():
     # htmlCode = df.to_html()
     # return htmlCode
     return Response(json.dumps(data), mimetype="application/json")
+    ''' 
+    df_data = df.to_string(index=False)
+    data = {}
+    data["id"] = 1
+    df1 = df[["PURCHASEORDERID", "ORDERSTATUS"]]
 
-    # return Response(df, mimetype="application/json")
+    result = ""
+    for index, row in df.iterrows():
+        result += str(row["PURCHASEORDERID"])
+        result += ":"
+        result += row["ORDERSTATUS"] + "\n"
+    # print(df1)
+    data["orders"] = result
+    print(result)
+    # df_data = data.to_string(index=False)
+    # json_data = json.dumps(df_data)
+    # htmlCode = df.to_html()
+    # return htmlCode
+    return Response(result, mimetype="application/json")
 
 
 @app.route("/health")
