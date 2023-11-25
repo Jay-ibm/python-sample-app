@@ -67,7 +67,7 @@ def fetch_orders():
     # json_data = json.dumps(df_data)
     # htmlCode = df.to_html()
     # return htmlCode
-    return Response(result, mimetype="application/json")
+    return Response(json.dumps(data), mimetype="application/json")
 
 
 @app.route("/health")
