@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import Response
 import sys
 import json
 import os, ibm_db_dbi as dbi, pandas as pd
@@ -45,7 +46,9 @@ def health():
     data["id"] = 1
     data["health"] = "ok"
     json_data = json.dumps(data)
-    return json_data
+    # return json_data
+    return Response(json_data, mimetype="application/json")
+    # return json_data, 200, {"Content-Type": "application/json; charset=utf-8"}
 
 
 if __name__ == "__main__":
