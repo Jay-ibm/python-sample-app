@@ -35,14 +35,22 @@ def fetch_orders():
     print(query)
     df = pd.read_sql_query(query, con=db2_connection)
     print(df)
+
     df_data = df.to_string(index=False)
     data = {}
     data["id"] = 1
-    data["orders"] = df_data
-    json_data = json.dumps(data)
+    df1 = df[["PURCHASEORDERID", "ORDERSTATUS"]]
+    print(df1)
+    data["orders"] = df1.to_json()
+    print(df1.to_json())
+
+    # df_data = data.to_string(index=False)
+    # json_data = json.dumps(df_data)
     # htmlCode = df.to_html()
     # return htmlCode
-    return Response(json_data, mimetype="application/json")
+    return Response(json.dumps(data), mimetype="application/json")
+
+    # return Response(df, mimetype="application/json")
 
 
 @app.route("/health")
