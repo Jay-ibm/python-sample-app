@@ -36,8 +36,9 @@ def fetch_orders():
     df = pd.read_sql_query(query, con=db2_connection)
     print(df)
     res = df.to_string(index=False)
-    htmlCode = df.to_html()
-    return htmlCode
+    # htmlCode = df.to_html()
+    # return htmlCode
+    return res
 
 
 @app.route("/health")
