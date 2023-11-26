@@ -20,20 +20,26 @@ def other_hello():
     return "Hello my other World!"
 
 #/order?number=1234&status=finalized
-@app.route('/order/', methods=('get', 'post'))
+@app.route("/order/", methods=("get", "post"))
 def update_order():
     dbCon = db_connection()
+
     orderNum = request.args.get("orderNum")
     status = request.args.get("newStatus")
-    query = "UPDATE PROCUREMENT SET ORDERSTATUS = 'status' WHERE PURCHASEORDERID='orderNum' "
-    print(query)
-    #cur = dbCon.cursor()
-    #cur.execute(query)
-    stmt = ibm_db.exec_immediate(dbCon, query)
-    rows=ibm_db.num_rows(stmt)
-    print ("Number of affected rows: ", rows)
+    print(orderNum)
+    print(status)
 
-    return rows
+    query = " update procurement set orderstatus= ? where purchaseorderid = ? "
+    print(query)
+    params = (status, orderNum)
+
+    cur = dbCon.cursor()
+    res = cur.execute(query, params)
+    dbCon.commit()
+
+    dbCon.close()
+
+    return str(res)
 
 @app.route("/orders/")
 def fetch_orders():
