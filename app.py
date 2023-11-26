@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import Response
+from flask import request
 import sys
 import json
 import os, ibm_db_dbi as dbi, pandas as pd
@@ -19,6 +20,12 @@ def hello():
 def other_hello():
     return "Hello my other World!"
 
+#/order?number=1234
+@app.route('/order/', methods=('get', 'post'))
+def fetch_order():
+    dbCon = db_connection()
+    orderNum = request.args.get('number') 
+    return orderNum
 
 @app.route("/orders/")
 def fetch_orders():
@@ -55,7 +62,7 @@ def fetch_orders():
     data["id"] = 1
     df1 = df[["PURCHASEORDERID", "ORDERSTATUS"]]
 
-    result = ""
+    result = "\n"
     for index, row in df.iterrows():
         result += str(row["PURCHASEORDERID"])
         result += ":"
@@ -79,6 +86,17 @@ def health():
     # return json_data
     return Response(json_data, mimetype="application/json")
     # return json_data, 200, {"Content-Type": "application/json; charset=utf-8"}
+
+def db_connection():
+    db2_dsn = "DATABASE={};HOSTNAME={};PORT={};PROTOCOL=TCPIP;UID={uid};PWD={pwd};SECURITY=SSL".format(
+    "bludb",
+    "fbd88901-ebdb-4a4f-a32e-9822b9fb237b.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud",
+    "32731",
+    uid="ktx43420",
+    pwd="Zbtqco8TYB0mzMui",
+    )
+    db2_connection = dbi.connect(db2_dsn)
+    return db2_connection
 
 
 if __name__ == "__main__":
