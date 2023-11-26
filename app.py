@@ -3,7 +3,7 @@ from flask import Response
 from flask import request
 import sys
 import json
-import os, ibm_db_dbi as dbi, pandas as pd
+import os, ibm_db, ibm_db_dbi as dbi, pandas as pd
 import numpy as np
 import os
 
@@ -21,12 +21,19 @@ def other_hello():
 
 #/order?number=1234&status=finalized
 @app.route('/order/', methods=('get', 'post'))
-def fetch_order():
+def update_order():
     dbCon = db_connection()
-    orderNum = request.args.get('orderNum') 
-    status = request.args.get('newStatus') 
+    orderNum = request.args.get("orderNum")
+    status = request.args.get("newStatus")
+    query = "UPDATE PROCUREMENT SET ORDERSTATUS = 'status' WHERE PURCHASEORDERID='orderNum' "
+    print(query)
+    #cur = dbCon.cursor()
+    #cur.execute(query)
+    stmt = ibm_db.exec_immediate(dbCon, query)
+    rows=ibm_db.num_rows(stmt)
+    print ("Number of affected rows: ", rows)
 
-    return orderNum
+    return rows
 
 @app.route("/orders/")
 def fetch_orders():
