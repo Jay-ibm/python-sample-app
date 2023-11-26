@@ -19,11 +19,13 @@ def hello():
 def other_hello():
     return "Hello my other World!"
 
-#/order?number=1234
+#/order?number=1234&status=finalized
 @app.route('/order/', methods=('get', 'post'))
 def fetch_order():
     dbCon = db_connection()
-    orderNum = request.args.get('number') 
+    orderNum = request.args.get('orderNum') 
+    status = request.args.get('newStatus') 
+
     return orderNum
 
 @app.route("/orders/")
