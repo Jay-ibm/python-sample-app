@@ -1,10 +1,9 @@
-from flask import Flask
+from flask import Flask, request
 from flask import Response
 from flask import request
 import sys
 import json
 import os, ibm_db_dbi as dbi, pandas as pd
-import requests
 import numpy as np
 import os
 
